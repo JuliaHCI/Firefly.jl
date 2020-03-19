@@ -24,7 +24,7 @@ which given ``p(x, y)\\propto 1``, leads to ``p(r, \\theta)\\propto r``
 
 # Form
 
-``p(r) = \\frac{2r}{r_\\text{out}^2 - r_\\text{in}^2}\\quad\\forall{x\\in (r_\\text{in}, r_\\text{out})}``
+``p(r) = \\frac{2r}{r_\\text{out}^2 - r_\\text{in}^2}\\quad\\forall{r\\in (r_\\text{in}, r_\\text{out})}``
 
 # Supported Functions
 
