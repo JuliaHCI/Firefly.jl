@@ -2,5 +2,7 @@ using Firefly
 using Test
 
 @testset "Firefly.jl" begin
-    # Write your tests here.
+    @testset "Distributions" begin
+        include("distributions.jl")
+    end
 end

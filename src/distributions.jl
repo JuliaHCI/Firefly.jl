@@ -154,8 +154,8 @@ function cdf(d::PoissonInvariant{T}, x::Real) where T
 end
 
 function logcdf(d::PoissonInvariant{T}, x::Real) where T
-    x < d.a && return zero(T)
-    x > d.b && return one(T)
+    x < d.a && return -T(Inf)
+    x > d.b && return zero(T)
     return log(sqrt(x) - sqrt(d.a)) - log(sqrt(d.b) - sqrt(d.a))
 end
 
