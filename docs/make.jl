@@ -1,21 +1,29 @@
 using Firefly
 using Documenter
 
+setup = quote
+    using Firefly
+    using Random
+    Random.seed!(42)
+end
+
+Documenter.setdocmeta!(Firefly, :DocTestSetup, setup; recursive = true)
+
 makedocs(;
-    modules=[Firefly],
-    authors="Miles Lucas <mdlucas@hawaii.edu>",
-    repo="https://github.com/mileslucas/Firefly.jl/blob/{commit}{path}#L{line}",
-    sitename="Firefly.jl",
-    format=Documenter.HTML(;
-        prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://mileslucas.github.io/Firefly.jl",
-        assets=String[],
+    modules = [Firefly],
+    authors = "Miles Lucas <mdlucas@hawaii.edu>",
+    repo = "https://github.com/mileslucas/Firefly.jl/blob/{commit}{path}#L{line}",
+    sitename = "Firefly.jl",
+    format = Documenter.HTML(;
+        prettyurls = get(ENV, "CI", "false") == "true",
+        canonical = "https://mileslucas.com/Firefly.jl",
+        assets = String[],
     ),
-    pages=[
+    pages = [
         "Home" => "index.md",
     ],
 )
 
 deploydocs(;
-    repo="github.com/mileslucas/Firefly.jl",
+    repo = "github.com/mileslucas/Firefly.jl",
 )
