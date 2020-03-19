@@ -7,7 +7,7 @@ setup = quote
     Random.seed!(42)
 end
 
-Documenter.setdocmeta!(Firefly, :DocTestSetup, setup; recursive = true)
+DocMeta.setdocmeta!(Firefly, :DocTestSetup, setup; recursive = true)
 
 makedocs(;
     modules = [Firefly],
@@ -26,4 +26,5 @@ makedocs(;
 
 deploydocs(;
     repo = "github.com/mileslucas/Firefly.jl",
+    push_preview = true
 )
