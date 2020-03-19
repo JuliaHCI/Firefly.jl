@@ -1,5 +1,5 @@
 module Firefly
 
-# Write your package code here.
+include("distributions.jl")
 
 end
