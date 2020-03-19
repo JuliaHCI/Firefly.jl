@@ -24,7 +24,7 @@ which given ``p(x, y)\\propto 1``, leads to ``p(r, \\theta)\\propto r``
 
 # Form
 
-``p(r\\in (r_\\text{in}, r_\\text{out})) = \\frac{2r}{r_\\text{out}^2 - r_\\text{in}^2}``
+``p(r) = \\frac{2r}{r_\\text{out}^2 - r_\\text{in}^2}\\quad\\forall{x\\in (r_\\text{in}, r_\\text{out})}``
 
 # Supported Functions
 
@@ -42,10 +42,10 @@ These functions have been explicitly written for `RadialUniform` from [Distribut
 julia> using Distributions
 
 julia> dist = RadialUniform(0, 10)
-RadialUniform{Int64}(r_in=0, r_out=10)
+RadialUniform{Float64}(r_in=0.0, r_out=10.0)
 
 julia> pdf(dist, -1)
-0
+0.0
 
 julia> pdf(dist, 3)
 0.06
@@ -94,13 +94,13 @@ A Poisson invariant distributions truncated from `a` to `b`.
 
 This distribution is derived from the determinant of the Fisher information matrix
 
-``p(x\\in(a, b)) \\propto \\sqrt{E\\left[\\left(\\frac{d\\ln{L}}{dx} \\right)^2 \\right]}``
+``p(x) \\propto \\sqrt{E\\left[\\left(\\frac{d\\ln{L}}{dx} \\right)^2 \\right]}``
 
-which gives ``p(x\\in(a, b)) \\propto 1/\\sqrt{x}``
+which gives ``p(x)\\propto 1/\\sqrt{x}``
 
 # Form
 
-``p(x\\in(a, b)) = \\frac{1}{2(\\sqrt{b} - \\sqrt{a}\\sqrt{x}}``
+``p(x) = \\frac{1}{2(\\sqrt{b} - \\sqrt{a})\\sqrt{x}}\\quad\\forall{x\\in (a,b)}``
 
 
 # Supported Functions

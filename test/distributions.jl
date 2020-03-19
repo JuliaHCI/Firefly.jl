@@ -7,6 +7,13 @@ using Statistics
     @testset "Interface" begin
         @test minimum(dist) == 0
         @test maximum(dist) == 1
+        
+        t = RadialUniform(0, 1)
+        @test typeof(t) === RadialUniform{Float64}
+        t = RadialUniform(0, 1.0)
+        @test typeof(t) === RadialUniform{Float64}
+        t = RadialUniform(BigInt(0), BigInt(1))
+        @test typeof(t) === RadialUniform{BigFloat}
     end
 
     @testset "Accuracy" begin
@@ -41,7 +48,14 @@ end
 
     @testset "Interface" begin
         @test minimum(dist) == 0
-        @test maximum(dist) == 1
+        @test maximum(dist) == 1    
+
+        t = PoissonInvariant(0, 1)
+        @test typeof(t) === PoissonInvariant{Float64}
+        t = PoissonInvariant(0, 1.0)
+        @test typeof(t) === PoissonInvariant{Float64}
+        t = PoissonInvariant(BigInt(0), BigInt(1))
+        @test typeof(t) === PoissonInvariant{BigFloat}
     end
 
     @testset "Accuracy" begin
