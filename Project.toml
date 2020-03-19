@@ -1,0 +1,7 @@
+name = "Firefly"
+uuid = "38d273ff-5bca-42e1-8e07-0e7ae0d15fdd"
+authors = ["Miles Lucas <mdlucas@hawaii.edu>"]
+version = "0.1.0"
+
+[compat]
+julia = "1.3"
