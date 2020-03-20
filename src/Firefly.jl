@@ -67,10 +67,10 @@ function findpeaks(samples::AbstractVector)
     return k.x[peak_idx[sorted_idx]]
 end
 
-findpeaks(samples::AbstractVector, n) = findpeaks(samples)[1:n]
+findpeaks(samples::AbstractVector, n::Integer) = findpeaks(samples)[1:n]
 findpeaks(chain::Chains) = findpeaks(Array(chain))
-findpeaks(chain::Chains, n) = findpeaks(Array(chain), n)
+findpeaks(chain::Chains, n::Integer) = findpeaks(Array(chain), n)
 findpeaks(chain::Chains, s::Symbol) = findpeaks(chain[s])
-findpeaks(chain::Chains, s::Symbol, n) = findpeaks(chain[s], n)
+findpeaks(chain::Chains, s::Symbol, n::Integer) = findpeaks(chain[s], n)
 
 end

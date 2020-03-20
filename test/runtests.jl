@@ -29,6 +29,7 @@ using MCMCChains
         @test_throws MethodError findpeak(c2)
         @test_throws MethodError findpeaks(c2)
         @test_throws MethodError findpeaks(ones(100, 100))
-        @test_throws ArgumentError findpeaks(ones(100), 2.4)
+        @test_throws MethodError findpeaks(ones(100), 2.4)
+        @test_throws MethodError findpeaks(c, 2.4)
     end
 end
