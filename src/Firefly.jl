@@ -49,6 +49,9 @@ This uses kernel density estimation (KDE) to estimate the continuous posterior d
 julia> samples = randn(1000) .+ (randn(1000) .+ 10);
 
 julia> findpeaks(samples, 2)
+2-element Array{Float64,1}:
+  9.82386893916195 
+ 14.595
 ```
 """
 function findpeaks(samples::AbstractVector)
