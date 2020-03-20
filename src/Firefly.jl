@@ -22,10 +22,10 @@ This uses kernel density estimation (KDE) to estimate the continuous posterior d
 
 # Examples
 ```jldoctest
-julia> samples = randn(1000);
+julia> samples = randn(2000);
 
-julia> findpeak(samples)
--0.15763422104075167
+julia> findpeak(samples) # should be close to 0
+-0.24696046398697033
 ```
 """
 function findpeak(samples::AbstractVector)
@@ -46,12 +46,12 @@ This uses kernel density estimation (KDE) to estimate the continuous posterior d
 
 # Examples
 ```jldoctest
-julia> samples = randn(1000) .+ (randn(1000) .+ 10);
+julia> samples = append!(randn(1000), randn(800) .+ 10);
 
-julia> findpeaks(samples, 2)
+julia> findpeaks(samples, 2) # should be close to [0, 10]
 2-element Array{Float64,1}:
-  9.82386893916195 
- 14.595394948392164
+ -0.059655173778625246
+  9.987428704498656
 ```
 """
 function findpeaks(samples::AbstractVector)
