@@ -51,7 +51,7 @@ julia> samples = randn(1000) .+ (randn(1000) .+ 10);
 julia> findpeaks(samples, 2)
 2-element Array{Float64,1}:
   9.82386893916195 
- 14.595
+ 14.595394948392164
 ```
 """
 function findpeaks(samples::AbstractVector)
