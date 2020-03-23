@@ -15,7 +15,7 @@ A tool for characterizing directly-imaged expolanets in a Bayesian framework
 
 ## Installation
 
-To install, from Julia (`v"1.3"`)
+From Julia (`v"1.3"`)
 
 ```julia-repl
 julia>]
