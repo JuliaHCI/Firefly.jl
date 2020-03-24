@@ -12,11 +12,11 @@ DocMeta.setdocmeta!(Firefly, :DocTestSetup, setup; recursive = true)
 makedocs(;
     modules = [Firefly],
     authors = "Miles Lucas <mdlucas@hawaii.edu>",
-    repo = "https://github.com/mileslucas/Firefly.jl/blob/{commit}{path}#L{line}",
+    repo = "https://github.com/juliahci/Firefly.jl/blob/{commit}{path}#L{line}",
     sitename = "Firefly.jl",
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
-        canonical = "https://mileslucas.com/Firefly.jl",
+        canonical = "https://juliahci.github.io/Firefly.jl",
         assets = String[],
     ),
     pages = [
@@ -26,6 +26,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo = "github.com/mileslucas/Firefly.jl",
+    repo = "github.com/JuliaHCI/Firefly.jl",
     push_preview = true
 )
