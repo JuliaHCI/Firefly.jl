@@ -11,7 +11,7 @@ CurrentModule = Firefly
 
 >   ["[like] fireflies next to spotlights"](https://www.planetary.org/explore/space-topics/exoplanets/direct-imaging.html)
 
-A tool for characterizing directly-imaged expolanets in a Bayesian framework
+A tool for characterizing directly-imaged [expolanets](https://en.wikipedia.org/wiki/Exoplanet) in a Bayesian framework
 
 ## Installation
 
