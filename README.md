@@ -15,7 +15,7 @@ A tool for characterizing directly-imaged [exoplanets](https://en.wikipedia.org/
 
 To install, from Julia (`v"1.3"`)
 
-```julia-repl
+```julia
 julia>]
 
 (1.3) pkg> add Firefly
