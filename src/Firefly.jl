@@ -8,6 +8,11 @@ using MCMCChains: Chains
 using StatsBase: rle
 
 
+using Reexport
+
+include("metrics/Metrics.jl")
+@reexport using .Metrics
+
 include("distributions.jl")
 
 ###############################################################################
