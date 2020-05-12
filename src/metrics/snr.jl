@@ -30,7 +30,7 @@ function snrmap(data::AbstractMatrix{T}, fwhm; method=:exact) where T
     coords = findall(!iszero, masked)
 
     Threads.@threads for coord in coords
-        @inbounds out[coord] = _snrfunc(::Val{method)(data, coord, fwhm)
+        @inbounds out[coord] = _snrfunc(Val(method))(data, coord, fwhm)
     end
     
     return out

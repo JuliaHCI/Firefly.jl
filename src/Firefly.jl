@@ -1,7 +1,9 @@
 module Firefly
 
 export findpeak,
-       findpeaks
+       findpeaks,
+       joint_model,
+       JointModel
 
 using KernelDensity: kde
 using MCMCChains: Chains
@@ -12,6 +14,7 @@ using Reexport
 
 include("metrics/Metrics.jl")
 @reexport using .Metrics
+include("joint.jl")
 
 include("distributions.jl")
 

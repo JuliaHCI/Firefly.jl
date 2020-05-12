@@ -4,20 +4,23 @@ authors = ["Miles Lucas <mdlucas@hawaii.edu>"]
 version = "0.1.0"
 
 [deps]
+ADI = "904a6c7d-4c1b-562f-9573-ab2e7e1c7946"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 HCIToolbox = "b6cd55e5-4d02-4e12-b82c-005f67e784bf"
 ImageFiltering = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
 ImageTransformations = "02fcd773-0e25-5acc-982a-7f6622650795"
 KernelDensity = "5ab0869b-81aa-558d-bb23-cbf5423bbe9b"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 MCMCChains = "c7f686f2-ff18-58e9-bc7b-31028e88f75d"
 Photometry = "af68cb61-81ac-52ed-8703-edc140936be4"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+WoodburyMatrices = "efce3f68-66dc-5838-9240-27a6d6f5f9b6"
 
 [compat]
 Distributions = "0.22,0.23"
-HCIToolbox = "0.1"
+HCIToolbox = "0.2,0.3"
 ImageFiltering = "0.6"
 ImageTransformations = "0.8"
 KernelDensity = "0.5"
