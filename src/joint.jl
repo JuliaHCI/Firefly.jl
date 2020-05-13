@@ -39,14 +39,14 @@ function (model::JointModel)(;params...)
 end
 
 function reconstruct(model::JointModel; params...)
-    μ = model(params...) |> flatten
+    μ = model(;params...) |> flatten
     AΛA = model.Σ.B * (model.Σ.D * model.Σ.B')
     recon = μ .+ (model.target .- μ) * (model.Σ \ AΛA') |> expand
     return recon .+ model.cube_mean
 end
 
 function loglikelihood(model::JointModel; params...)
-    μ = model(params...) |> flatten
+    μ = model(;params...) |> flatten
     R = model.target .- μ
     return -tr(R * (model.Σ \ R')) / 2
 end
