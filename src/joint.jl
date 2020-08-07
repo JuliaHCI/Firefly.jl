@@ -5,7 +5,8 @@ using LinearAlgebra
 using HCIToolbox
 using Interpolations
 
-import Distributions: loglikelihood, ContinuousMultivariateDistribution
+import Distributions
+import Distributions: ContinuousMatrixDistribution
 
 struct JointModel{T <: AbstractArray, M <: AbstractMatrix, V <: AbstractVector, W <: AbstractWoodbury,P<:Union{HCIToolbox.PSFKernel, M}}
     cube::T
@@ -18,24 +19,26 @@ struct JointModel{T <: AbstractArray, M <: AbstractMatrix, V <: AbstractVector, 
 end
 
 """
-    JointModel(::ADI.ADIDesign, cube, psf)
+    JointModel(A, w, cube, psf)
 
-Creates a joint model using the given design targeting the given cube, with the given PSF model.
+Construct a joint model using the given basis vectors `A` and weights `w`. They should have shape `(n, Npx)` and `(n, M)`, respectively. `cube` will be used as the target for the likelihood.
 
-# Extended Help
+# Extended help
+
+The mathematical formulation of this model is
+```math
+\\text{cube} \\sim \\mathbf{A} \\cdot \\mathbf{w} + \\text{PSF} + \\epsilon
+```
 """
-function JointModel(design::ADI.ADIDesign, cube, psf)
-    # design matrix (transpose for shape considerations)
-    A = ADI.design(design)
+function JointModel(A, w, cube, angles, psf)
     ref_cov = fake_covariance(flatten(cube))
-    w = ADI.weights(design)
     w̄ = mean(w, dims=2)
     Λ = cov(w, dims=2)
-    Σ = SymWoodbury(ref_cov, A, Λ)
-    Σ⁻¹AΛAᵀ = Σ \ (A * (Λ * A'))
-    Aw̄ = repeat(w̄' * A' |> expand, length(design.angles), 1, 1)
+    Σ = SymWoodbury(ref_cov, A', Λ)
+    Σ⁻¹AΛAᵀ = Σ \ (A' * (Λ * A))
+    Aw̄ = repeat(w̄' * A |> expand, length(angles), 1, 1)
     target = flatten(cube)
-    return JointModel(cube, target, design.angles, Σ, Σ⁻¹AΛAᵀ, Aw̄, psf)
+    return JointModel(cube, target, angles, Σ, Σ⁻¹AΛAᵀ, Aw̄, psf)
 end
 
 """
@@ -44,11 +47,11 @@ end
 
 Return the signal, `μ(params)` injected into `base`.
 """
-function (model::JointModel)(base::AbstractArray{T}=model.Aw̄; s=1, degree=Linear(), params...) where T
-    S = map(typeof, values(params))
-    V = promote_type(T, S...)
+function (model::JointModel)(base::AbstractArray{T}=model.Aw̄; degree=Linear(), params...) where T
+    S = mapreduce(typeof, promote_type, values(params))
+    V = promote_type(T, S)
     μ = inject!(V.(base), model.psf, model.angles; params...)
-    return JointDistribution(flatten(μ), model.Σ, V(s))
+    return JointDistribution(flatten(μ), model.Σ)
 end
 
 """
@@ -57,15 +60,11 @@ end
 
 Reconstruct the systematics conditioned on the input `data`. If not provided, will use the internal `target`. When `data` is a matrix, the returned reconstruction will also be a matrix. When `data` is a cube, the reconstruction will be expanded into a cube.
 """
-function ADI.reconstruct(model::JointModel, data::AbstractMatrix; s=1, params...)
+function ADI.reconstruct(model::JointModel, cube = model.cube; params...)
     base = reshape(model.Aw̄[1, :, :], 1, :)
     μ = model(;params...).μ
-    return base .+ (data .- μ) * model.Σ⁻¹AΛAᵀ ./ s
+    return base .+ (flatten(cube) .- μ) * model.Σ⁻¹AΛAᵀ |> expand
 end
-ADI.reconstruct(model::JointModel; params...) = 
-    reconstruct(model, model.cube; params...)
-ADI.reconstruct(model::JointModel, data::AbstractArray{T,3}; params...) where T = 
-    reconstruct(model, flatten(data); params...) |> expand
 
 """
     Distributions.loglikelihood(::JointModel, [data]; r, theta, A=1)
@@ -73,33 +72,26 @@ ADI.reconstruct(model::JointModel, data::AbstractArray{T,3}; params...) where T 
 
 Return the likelihood of the model target given the input parameters. By default uses the model's cube as the input, but a matrix can be passed directly. Returns the logkernel of a matrix normal distribution without column-wise variance. 
 """
-function loglikelihood(model::JointModel, data::AbstractMatrix=model.target; s=1, params...)
+function loglikelihood(model::JointModel, data::AbstractMatrix=model.target; params...)
     μ = model(;params...).μ# |> flatten
     R = data .- μ
-    n = size(R, 1)
-    return -(n * s + tr(R * (model.Σ \ R')) / s) / 2
-    # return -tr(R * (model.Σ⁻¹ * R')) / 2
+    return -tr(R * (model.Σ \ R')) / 2
 end
 
 # TODO
 # probably use Distributions.logkernel and Distributions.loglikelihood to further
 # allow this to become a "distribution" for use in other inference methods.
-struct JointDistribution{T,M<:AbstractMatrix{T},W<:AbstractWoodbury{T}} <: ContinuousMultivariateDistribution
+struct JointDistribution{T,M<:AbstractMatrix{T},W<:AbstractWoodbury} <: ContinuousMatrixDistribution
     μ::M
     Σ::W
-    s::T
 end
 
-JointDistribution(μ::M, Σ::W, s) where {T,M<:AbstractMatrix,W<:AbstractWoodbury{T}} =
-    JointDistribution(T.(μ), Σ, T(s))
-
-function loglikelihood(d::JointDistribution, X::AbstractMatrix)
+function Distributions._logpdf(d::JointDistribution, X::AbstractMatrix)
     R = X .- d.μ
-    n = size(R, 1)
-    return -(n * d.s + tr(R * (d.Σ \ R')) / d.s) / 2
+    return -tr(R * (d.Σ \ R')) / 2
 end
 
-Base.length(d::JointDistribution) = length(d.μ)
+Base.size(d::JointDistribution) = size(d.μ)
 
 # covariance is just a diagonal of the variance
 function fake_covariance(mat::AbstractMatrix)

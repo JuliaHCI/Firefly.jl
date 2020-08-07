@@ -1,9 +1,6 @@
 module Firefly
 
-export findpeak,
-       findpeaks,
-       joint_model,
-       JointModel
+export JointModel
 
 include("joint.jl")
 include("distributions.jl")
