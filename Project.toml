@@ -15,7 +15,7 @@ WoodburyMatrices = "efce3f68-66dc-5838-9240-27a6d6f5f9b6"
 
 [compat]
 ADI = "0.1, 0.2"
-Distributions = "0.22,0.23"
+Distributions = "0.22,0.23, 0.24"
 HCIToolbox = "0.2,0.3"
 ImageTransformations = "0.8"
 Interpolations = "0.12"
