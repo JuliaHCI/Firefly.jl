@@ -18,7 +18,7 @@ Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 WoodburyMatrices = "efce3f68-66dc-5838-9240-27a6d6f5f9b6"
 
 [compat]
-ADI = "0.4, 0.5"
+ADI = "0.4, 0.5, 0.6"
 CoordinateTransformations = "0.5, 0.6"
 Distributions = "0.22, 0.23, 0.24"
 HCIToolbox = "0.5"
