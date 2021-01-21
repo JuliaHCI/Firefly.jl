@@ -87,77 +87,77 @@ logpdf(d::RadialUniform{T}, x::Real) where T = insupport(d, x) ? log(2x) - log(d
 
 
 
-"""
-    PoissonInvariant(a, b) <: ContinuousUnivariateDistribution
+# """
+#     PoissonInvariant(a, b) <: ContinuousUnivariateDistribution
 
-A Poisson invariant distributions truncated from `a` to `b`.
+# A Poisson invariant distributions truncated from `a` to `b`.
 
-This distribution is derived from the determinant of the Fisher information matrix
+# This distribution is derived from the determinant of the Fisher information matrix
 
-``p(x) \\propto \\sqrt{E\\left[\\left(\\frac{d\\ln{L}}{dx} \\right)^2 \\right]}``
+# ``p(x) \\propto \\sqrt{E\\left[\\left(\\frac{d\\ln{L}}{dx} \\right)^2 \\right]}``
 
-which gives ``p(x)\\propto 1/\\sqrt{x}``
+# which gives ``p(x)\\propto 1/\\sqrt{x}``
 
-# Form
+# # Form
 
-``p(x) = \\frac{1}{2(\\sqrt{b} - \\sqrt{a})\\sqrt{x}}\\quad\\forall{x\\in (a,b)}``
+# ``p(x) = \\frac{1}{2(\\sqrt{b} - \\sqrt{a})\\sqrt{x}}\\quad\\forall{x\\in (a,b)}``
 
 
-# Supported Functions
+# # Supported Functions
 
-These functions have been explicitly written for `RadialUniform` from [Distributions.jl](https://github.com/juliastats/Distributions.jl). There may be more functionality available from fallback methods, but the following are guaranteed to work.
-* [`pdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.pdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
-* [`logpdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.logpdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
-* [`cdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.cdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
-* [`logcdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.logcdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
-* [`quantile`](https://juliastats.org/Distributions.jl/stable/univariate/#Statistics.quantile-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
-* [`minimum`](https://juliastats.org/Distributions.jl/stable/univariate/#Base.minimum-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport})
-* [`maximum`](https://juliastats.org/Distributions.jl/stable/univariate/#Base.maximum-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport})
+# These functions have been explicitly written for `RadialUniform` from [Distributions.jl](https://github.com/juliastats/Distributions.jl). There may be more functionality available from fallback methods, but the following are guaranteed to work.
+# * [`pdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.pdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
+# * [`logpdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.logpdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
+# * [`cdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.cdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
+# * [`logcdf`](https://juliastats.org/Distributions.jl/stable/univariate/#Distributions.logcdf-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
+# * [`quantile`](https://juliastats.org/Distributions.jl/stable/univariate/#Statistics.quantile-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport,Real})
+# * [`minimum`](https://juliastats.org/Distributions.jl/stable/univariate/#Base.minimum-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport})
+# * [`maximum`](https://juliastats.org/Distributions.jl/stable/univariate/#Base.maximum-Tuple{Distribution{Univariate,S}%20where%20S%3C:ValueSupport})
 
-# Examples
-```jldoctest
-julia> using Distributions
+# # Examples
+# ```jldoctest
+# julia> using Distributions
 
-julia> dist = PoissonInvariant(0, 1)
-PoissonInvariant{Float64}(a=0.0, b=1.0)
+# julia> dist = PoissonInvariant(0, 1)
+# PoissonInvariant{Float64}(a=0.0, b=1.0)
 
-julia> pdf(dist, -1)
-0.0
+# julia> pdf(dist, -1)
+# 0.0
 
-julia> pdf(dist, 3)
-0.0
+# julia> pdf(dist, 3)
+# 0.0
 
-julia> cdf(dist, quantile(dist, 0.5))
-0.5
-```
-"""
-struct PoissonInvariant{T <: AbstractFloat} <: ContinuousUnivariateDistribution
-    a::T
-    b::T
-    function PoissonInvariant(a::S, b::S) where S
-        T = float(S)
-        new{T}(T(a), T(b))
-    end
-end
+# julia> cdf(dist, quantile(dist, 0.5))
+# 0.5
+# ```
+# """
+# struct PoissonInvariant{T <: AbstractFloat} <: ContinuousUnivariateDistribution
+#     a::T
+#     b::T
+#     function PoissonInvariant(a::S, b::S) where S
+#         T = float(S)
+#         new{T}(T(a), T(b))
+#     end
+# end
 
-PoissonInvariant(a, b) = PoissonInvariant(promote(a, b)...)
+# PoissonInvariant(a, b) = PoissonInvariant(promote(a, b)...)
 
-Base.minimum(d::PoissonInvariant) = d.a
-Base.maximum(d::PoissonInvariant) = d.b
+# Base.minimum(d::PoissonInvariant) = d.a
+# Base.maximum(d::PoissonInvariant) = d.b
 
-quantile(d::PoissonInvariant, q::Real) = (q * (sqrt(d.b) - sqrt(d.a)) + sqrt(d.a))^2
+# quantile(d::PoissonInvariant, q::Real) = (q * (sqrt(d.b) - sqrt(d.a)) + sqrt(d.a))^2
 
-function cdf(d::PoissonInvariant{T}, x::Real) where T
-    x < d.a && return zero(T)
-    x > d.b && return one(T)
-    return (sqrt(x) - sqrt(d.a)) / (sqrt(d.b) - sqrt(d.a))
-end
+# function cdf(d::PoissonInvariant{T}, x::Real) where T
+#     x < d.a && return zero(T)
+#     x > d.b && return one(T)
+#     return (sqrt(x) - sqrt(d.a)) / (sqrt(d.b) - sqrt(d.a))
+# end
 
-function logcdf(d::PoissonInvariant{T}, x::Real) where T
-    x < d.a && return -T(Inf)
-    x > d.b && return zero(T)
-    return log(sqrt(x) - sqrt(d.a)) - log(sqrt(d.b) - sqrt(d.a))
-end
+# function logcdf(d::PoissonInvariant{T}, x::Real) where T
+#     x < d.a && return -T(Inf)
+#     x > d.b && return zero(T)
+#     return log(sqrt(x) - sqrt(d.a)) - log(sqrt(d.b) - sqrt(d.a))
+# end
 
-pdf(d::PoissonInvariant{T}, x::Real) where T = insupport(d, x) ? 1 / (2sqrt(x) * (sqrt(d.b) - sqrt(d.a))) : zero(T)
-logpdf(d::PoissonInvariant{T}, x::Real) where T = insupport(d, x) ? -log(2sqrt(x) * (sqrt(d.b) - sqrt(d.a))) : -T(Inf)
+# pdf(d::PoissonInvariant{T}, x::Real) where T = insupport(d, x) ? 1 / (2sqrt(x) * (sqrt(d.b) - sqrt(d.a))) : zero(T)
+# logpdf(d::PoissonInvariant{T}, x::Real) where T = insupport(d, x) ? -log(2sqrt(x) * (sqrt(d.b) - sqrt(d.a))) : -T(Inf)
